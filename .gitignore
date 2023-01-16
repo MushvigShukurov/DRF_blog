@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+myvenv/
+drf_venv/
+steps.txt 
+type_steps.py
