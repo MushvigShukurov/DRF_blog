@@ -5,6 +5,11 @@ from blog.models import Blog
 from blog.api.serializers import BlogSerializer 
 from django.shortcuts import redirect
 
+# Class Based View
+
+
+# ----------------
+
 @api_view(['GET','POST'])
 def blog_list_create_api_view(request):
     if request.method == "GET":
