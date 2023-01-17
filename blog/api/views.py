@@ -67,6 +67,7 @@ def blog_detail(request,pk):
         serializer = BlogSerializer(blog,data=request.data)
         if serializer.is_valid(): serializer.save()
         return Response(serializer.data,status=status.HTTP_200_OK) 
+        # return Response(serializer.errors,serializer.data,status=status.HTTP_200_OK) 
     elif request.method == "DELETE":
         blog.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
