@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 
 # Class Based View
 from rest_framework.views import APIView
+from rest_framework.generics import get_object_or_404
 class BlogListCreateApiView(APIView):
     def get(self,request):
         blogs = Blog.objects.filter(is_delete=False)
@@ -18,6 +19,23 @@ class BlogListCreateApiView(APIView):
             serializer.save()
             return redirect("blogs")
         return Response(status=status.HTTP_400_BAD_REQUEST)
+class BlogDetail(APIView):
+    def get_object_custom(self,pk):
+        blog = get_object_or_404(Blog,pk=pk)
+        return blog
+    def get(self,request,pk):
+        blog = self.get_object_custom(pk)
+        serializer = BlogSerializer(blog)
+        return Response(serializer.data)
+    def put(self,request,pk):
+        blog = self.get_object_custom(pk)
+        serializer = BlogSerializer(blog,data=request.data)
+        if serializer.is_valid(): serializer.save()
+        return Response(serializer.data,status=status.HTTP_200_OK) 
+    def delete(self,request,pk):
+        blog = self.get_object_custom(pk)
+        blog.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 # ----------------
 
 
