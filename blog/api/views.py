@@ -6,10 +6,22 @@ from blog.api.serializers import BlogSerializer
 from django.shortcuts import redirect
 
 # Class Based View
-
-
+from rest_framework.views import APIView
+class BlogListCreateApiView(APIView):
+    def get(self,request):
+        blogs = Blog.objects.filter(is_delete=False)
+        serializer = BlogSerializer(blogs,many=True)      
+        return Response(serializer.data)
+    def post(self,request):
+        serializer = BlogSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return redirect("blogs")
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 # ----------------
 
+
+# Function Based Views
 @api_view(['GET','POST'])
 def blog_list_create_api_view(request):
     if request.method == "GET":
