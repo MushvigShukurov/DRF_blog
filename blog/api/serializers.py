@@ -7,7 +7,7 @@ class BlogSerializer(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField()
     content = serializers.CharField()
-    slug = serializers.SlugField()
+    slug = serializers.SlugField(read_only=True)
     is_delete = serializers.BooleanField()
 
     created_at = serializers.DateTimeField(read_only=True)
@@ -28,3 +28,20 @@ class BlogSerializer(serializers.Serializer):
         instance.is_delete = validated_data.get('is_delete',instance.is_delete)
         instance.save()
         return instance
+
+    def validate(self,data): # object Level
+        if len(data['title']) <10:
+            raise serializers.ValidationError(
+                "Title minimum 10 xarakterden ibaret olmalidir."
+            )
+        return data
+
+    # def validate_slug(self, value):
+    #     has_slug = Blog.objects.filter(slug=value).count()
+    #     print(value)
+    #     print("HAS SLUG :",has_slug)
+    #     if has_slug > 0:
+    #         raise serializers.ValidationError(
+    #             "Slug fields are unique!"
+    #         )
+    #     return value
