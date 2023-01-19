@@ -18,7 +18,7 @@ class BlogListCreateApiView(APIView):
         if serializer.is_valid():
             serializer.save()
             return redirect("blogs")
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 class BlogDetail(APIView):
     def get_object_custom(self,pk):
         blog = get_object_or_404(Blog,pk=pk)
