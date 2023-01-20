@@ -2,12 +2,29 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from blog.models import Blog
-from blog.api.serializers import BlogSerializer 
+from blog.api.serializers import BlogSerializer, UserSerializer
 from django.shortcuts import redirect
+from  django.contrib.auth.models import User 
 
 # Class Based View
 from rest_framework.views import APIView
 from rest_framework.generics import get_object_or_404
+
+# For User
+class UserListCreateApiView(APIView):
+    def get(self,request):
+        users = User.objects.all()
+        serializer = UserSerializer(users,many=True)      
+        return Response(serializer.data)
+    def post(self,request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return redirect("users")
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+# End For User
+
+
 class BlogListCreateApiView(APIView):
     def get(self,request):
         blogs = Blog.objects.filter(is_delete=False)

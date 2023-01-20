@@ -3,9 +3,20 @@ from blog.models import Blog
 from datetime import datetime
 from django.utils.timesince import timesince
 from django.utils import timezone
+from django.contrib.auth.models import User
 # Model Serializer
+
+# class UserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User 
+#         fields = "__all__"
+
+
 class BlogSerializer(serializers.ModelSerializer):
     gun_evvel = serializers.SerializerMethodField()
+    # author = serializers.StringRelatedField()
+    # author = UserSerializer()
+    # author = UserSerializer(read_only=True)
     class Meta:
         model = Blog 
         fields = "__all__"
@@ -65,3 +76,19 @@ class BlogSerializer(serializers.ModelSerializer):
 #     #             "Slug fields are unique!"
 #     #         )
 #     #     return value
+
+
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+    blogs = serializers.SerializerMethodField()
+    class Meta:
+        model = User 
+        fields = "__all__"
+
+    def get_blogs(self,object):
+        # print(object)
+        blogs = Blog.objects.filter(author=object.id)
+        blogs = BlogSerializer(blogs,many=True)
+        return blogs.data
