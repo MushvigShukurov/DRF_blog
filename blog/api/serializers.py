@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from blog.models import Blog
+from blog.models import Blog, Comment, BlogRaiting
 from datetime import datetime
 from django.utils.timesince import timesince
 from django.utils import timezone
@@ -10,24 +10,37 @@ from django.contrib.auth.models import User
 #     class Meta:
 #         model = User 
 #         fields = "__all__"
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = "__all__"
 
+class RaitingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlogRaiting
+        fields = "__all__"
 
 class BlogSerializer(serializers.ModelSerializer):
-    gun_evvel = serializers.SerializerMethodField()
+    # GenericApiViewUcunBaglayiram
+    # comments = CommentSerializer(many=True,read_only=True)
+    # raitings = RaitingSerializer(many=True,read_only=True)
+    
+    # gun_evvel = serializers.SerializerMethodField()
     # author = serializers.StringRelatedField()
     # author = UserSerializer()
     # author = UserSerializer(read_only=True)
     class Meta:
         model = Blog 
         fields = "__all__"
+        read_only_fields = ['slug','is_delete']
         # fields = ['title']
         # exclude = ['title']
         # read_only_fields = ['id','title']
-    def get_gun_evvel(self,object):
-        now = timezone.now()
-        cr_at = object.created_at
-        gunler = timesince(cr_at,now)
-        return gunler + " ago"
+    # def get_gun_evvel(self,object):
+    #     now = timezone.now()
+    #     cr_at = object.created_at
+    #     gunler = timesince(cr_at,now)
+    #     return gunler + " ago"
 
 
 

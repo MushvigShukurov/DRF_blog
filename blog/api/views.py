@@ -1,11 +1,26 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from blog.models import Blog
-from blog.api.serializers import BlogSerializer, UserSerializer
+from blog.models import Blog, Comment, BlogRaiting
+from blog.api.serializers import BlogSerializer, UserSerializer, RaitingSerializer
 from django.shortcuts import redirect
 from  django.contrib.auth.models import User 
 
+# Generic Api View Start
+from rest_framework.generics import GenericAPIView
+# Mixins
+from rest_framework.mixins import ListModelMixin, CreateModelMixin
+class BlogListCreateAPIView(ListModelMixin,CreateModelMixin,GenericAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request,*args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        return self.create(request,*args, **kwargs)
+
+
+# Generic Api View End
 # Class Based View
 from rest_framework.views import APIView
 from rest_framework.generics import get_object_or_404

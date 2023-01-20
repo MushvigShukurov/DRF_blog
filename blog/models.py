@@ -34,7 +34,7 @@ class Blog(models.Model):
 
     
 class Comment(models.Model):
-    blog = models.ForeignKey(Blog,on_delete=models.CASCADE,related_name="şərhlər")
+    blog = models.ForeignKey(Blog,on_delete=models.CASCADE,related_name="comments")
     comment_author_firstname = models.CharField(max_length=50)
     comment_author_lastname = models.CharField(max_length=50)
     comment_author_email = models.CharField(max_length=100)
@@ -46,8 +46,8 @@ class Comment(models.Model):
 
 
 class BlogRaiting(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="reytinqler")
-    blog = models.ForeignKey(Blog,on_delete=models.CASCADE, related_name="reytinqler")
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="raitings")
+    blog = models.ForeignKey(Blog,on_delete=models.CASCADE, related_name="raitings")
     raiting = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(5)],default=5)
 
     created_at = models.DateTimeField(auto_now_add=True)
