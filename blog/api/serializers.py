@@ -82,13 +82,18 @@ class BlogSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    blogs = serializers.SerializerMethodField()
+    # blogs = serializers.SerializerMethodField()
+    bloqlar = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='blog-detail'
+    )
     class Meta:
         model = User 
         fields = "__all__"
 
-    def get_blogs(self,object):
-        # print(object)
-        blogs = Blog.objects.filter(author=object.id)
-        blogs = BlogSerializer(blogs,many=True)
-        return blogs.data
+    # def get_blogs(self,object):
+    #     # print(object)
+    #     blogs = Blog.objects.filter(author=object.id)
+    #     blogs = BlogSerializer(blogs,many=True)
+    #     return blogs.data

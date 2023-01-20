@@ -14,7 +14,7 @@ from rest_framework.generics import get_object_or_404
 class UserListCreateApiView(APIView):
     def get(self,request):
         users = User.objects.all()
-        serializer = UserSerializer(users,many=True)      
+        serializer = UserSerializer(users,many=True,context={'request': request})      
         return Response(serializer.data)
     def post(self,request):
         serializer = UserSerializer(data=request.data)
