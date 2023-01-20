@@ -1,9 +1,11 @@
 from django.db import models
 from slugify import slugify
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
 # Create your models here.
 class Blog(models.Model):
-    author = models.CharField(max_length=50,null=True,blank=True)
+    # author = models.CharField(max_length=50,null=True,blank=True)
+    author = models.ForeignKey(User,on_delete=models.CASCADE,related_name="bloqlar")
 
     title = models.CharField(max_length=150,null=False,blank=False)
     description = models.CharField(max_length=300,null=False,blank=False)

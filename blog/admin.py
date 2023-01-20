@@ -5,4 +5,4 @@ from blog.models import Blog
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    readonly_fields = ['slug','author']
+    readonly_fields = ['slug']
