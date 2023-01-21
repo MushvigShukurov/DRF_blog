@@ -13,13 +13,17 @@ class CommentSerializer(serializers.ModelSerializer):
 class RaitingSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogRaiting
-        fields = "__all__"
+        # fields = "__all__"
+        exclude = ["id","created_at","updated_at","blog"]
 
 class BlogSerializer(serializers.ModelSerializer):
+    comments = CommentSerializer(many=True,read_only=True)
+    raitings = RaitingSerializer(many=True,read_only=True)
     class Meta:
         model = Blog 
-        fields = "__all__"
-        read_only_fields = ['slug','is_delete']
+        # fields = "__all__"
+        # read_only_fields = ['slug','is_delete']
+        exclude = ['slug','is_delete']
 class UserSerializer(serializers.ModelSerializer):
     # bloqlar = serializers.HyperlinkedRelatedField( many=True, read_only=True, view_name='blog-detail' )
     class Meta:
