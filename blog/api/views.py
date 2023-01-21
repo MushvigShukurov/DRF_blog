@@ -13,6 +13,11 @@ from django.contrib.auth.models import User
 class BlogListCreateAPIView(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+
+class BlogDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+
 class UserListCreateAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
