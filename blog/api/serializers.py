@@ -9,6 +9,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = "__all__"
+        read_only_fields = ['blog']
 
 class RaitingSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,3 +30,4 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
         fields = "__all__"
+        read_only_fields = ['last_login','is_superuser','is_staff','is_active','groups','user_permissions','date_joined']
