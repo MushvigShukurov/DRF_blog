@@ -21,7 +21,7 @@ class BlogSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ['slug','is_delete']
 class UserSerializer(serializers.ModelSerializer):
-    bloqlar = serializers.HyperlinkedRelatedField( many=True, read_only=True, view_name='blog-detail' )
+    # bloqlar = serializers.HyperlinkedRelatedField( many=True, read_only=True, view_name='blog-detail' )
     class Meta:
         model = User 
         fields = "__all__"
