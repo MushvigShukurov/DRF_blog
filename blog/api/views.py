@@ -7,12 +7,14 @@ from rest_framework.views import APIView
 from blog.api.serializers import BlogSerializer, UserSerializer, RaitingSerializer, CommentSerializer
 from blog.models import Blog, Comment, BlogRaiting
 from django.contrib.auth.models import User
+from rest_framework import permissions
 
 
 
 class BlogListCreateAPIView(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def perform_create(self, serializer):
         author = self.request.user
         serializer.save(author=author)
