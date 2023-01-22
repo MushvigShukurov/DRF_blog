@@ -6,16 +6,18 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField(read_only=True)
+    # blog = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = Comment
         fields = "__all__"
-        read_only_fields = ['blog']
+        read_only_fields = ['blog','author']
 
 class RaitingSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogRaiting
         fields = "__all__"
-        read_only_fields = ["id","created_at","updated_at","blog"]
+        read_only_fields = ["id","created_at","updated_at","blog","user"]
         
 
 class BlogSerializer(serializers.ModelSerializer):
