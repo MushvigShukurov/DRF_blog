@@ -8,13 +8,14 @@ from blog.api.serializers import BlogSerializer, UserSerializer, RaitingSerializ
 from blog.models import Blog, Comment, BlogRaiting
 from django.contrib.auth.models import User
 from rest_framework import permissions
-
+from blog.api.permissions import IsAdminUserOrReadOnly
 
 
 class BlogListCreateAPIView(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminUserOrReadOnly]
     def perform_create(self, serializer):
         author = self.request.user
         serializer.save(author=author)
