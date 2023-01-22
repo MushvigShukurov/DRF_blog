@@ -3,7 +3,6 @@ from blog.api.views import BlogListCreateAPIView, UserListCreateAPIView, BlogDet
 urlpatterns = [
     path('blogs/',BlogListCreateAPIView.as_view(),name="blogs"),
     path('blogs/<int:pk>',BlogDetailAPIView.as_view(),name="blog-detail"),
-    # path('blogs/<int:pk>/add-comment/', CommentDetailAPIView.as_view(),name="add-comment"),
     path('blogs/<int:pk>/add-comment/', CommentCreateAPIView.as_view(),name="add-comment"),
     path('users/',UserListCreateAPIView.as_view(),name="users"),
     path('users/<int:pk>',UserDetailAPIView.as_view(),name="user-detail"),
