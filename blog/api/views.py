@@ -8,7 +8,7 @@ from blog.api.serializers import BlogSerializer, UserSerializer, RaitingSerializ
 from blog.models import Blog, Comment, BlogRaiting
 from django.contrib.auth.models import User
 from rest_framework import permissions
-from blog.api.permissions import IsAdminUserOrReadOnly
+from blog.api.permissions import IsAdminUserOrReadOnly, IsOwnerOfCommentOrReadOnly
 from rest_framework.exceptions import ValidationError
 
 
@@ -57,9 +57,6 @@ class CommentCreateAPIView(generics.CreateAPIView):
         blog = get_object_or_404(Blog,pk=blog_pk)
         author_pk = self.request.user.id 
         author = get_object_or_404(User,pk=author_pk)
-        # comment_count = Comment.objects.filter(blog=blog,author=author).count()
-        # if comment_count==0:
-        #     serializer.save(blog=blog,author=author)
         comments = Comment.objects.filter(blog=blog,author=author)
         if comments.exists():
             raise ValidationError("Comment yazmisan da bro")
@@ -68,7 +65,7 @@ class CommentCreateAPIView(generics.CreateAPIView):
 class CommentDetailAPIView(DestroyModelMixin,generics.RetrieveUpdateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer 
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsOwnerOfCommentOrReadOnly]
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
