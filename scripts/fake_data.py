@@ -8,7 +8,7 @@ django.setup()
 
 from faker import Faker
 from django.contrib.auth.models import User
-
+from blog.api.serializers import UserSerializer
 
 
 def set_user():
@@ -16,15 +16,21 @@ def set_user():
     f_name = fake.first_name()
     l_name = fake.last_name()
     u_name = f"{f_name.lower()}_{l_name.lower()}"
-    email = f"{u_name}@{fake.domain_name()}"
-    user_check = User.objects.filter(username=u_name,email=email)
+    user_check = User.objects.filter(username=u_name)
     if user_check.exists():
-        set_user()
+        u_name += randrange(1000,10000)
     user = User(
-        username = u_name,
-        email=email
+        username = u_name
     )
-    user.set_password("parol_x")
-    user.save()
+    user.set_password("qwerty123")
+    user = {
+        "username":user.username,
+        "password":user.password
+    }
+    serializer = UserSerializer(data=user)
+    if serializer.is_valid():
+        serializer.save()
 
 
+def users_count():
+    return User.objects.all().count()
