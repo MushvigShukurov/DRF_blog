@@ -34,7 +34,7 @@ class BlogDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class UserListCreateAPIView(generics.ListCreateAPIView):
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('-id')
     serializer_class = UserSerializer
     pagination_class = OurPagination
 
