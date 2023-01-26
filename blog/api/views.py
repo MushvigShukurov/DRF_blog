@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from rest_framework import permissions
 from blog.api.permissions import IsAdminUserOrReadOnly, IsOwnerOfCommentOrReadOnly
 from rest_framework.exceptions import ValidationError
-
+from blog.api.pagination import OurPagination
 
 class BlogListCreateAPIView(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
@@ -36,6 +36,7 @@ class BlogDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class UserListCreateAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    pagination_class = OurPagination
 
 
 
