@@ -15,6 +15,7 @@ jedi==0.18.2
 matplotlib-inline==0.1.6
 parso==0.8.3
 pickleshare==0.7.5
+Pillow==9.4.0
 prompt-toolkit==3.0.36
 pure-eval==0.2.2
 Pygments==2.14.0
